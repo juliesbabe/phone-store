@@ -15,7 +15,7 @@ export default function Header() {
         <nav className="hidden md:flex gap-6 text-gray-600 font-medium">
           {/* "Products" now links to the real catalog page */}
           <Link href="/products" className="hover:text-black transition-colors">Products</Link>
-          <a href="#" className="hover:text-black transition-colors">Categories</a>
+          <Link href="/products" className="hover:text-black transition-colors">Categories</Link>
           <a href="#" className="hover:text-black transition-colors">Contact</a>
         </nav>
 
