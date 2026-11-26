@@ -1,21 +1,18 @@
-// This file is the single source of truth for your product listings.
-// Both the homepage and (later) the product detail pages read from here.
-// When we connect Supabase, we will replace this array with a database query.
-
-// This "interface" is a form template: every product must have these fields.
+// Single source of truth for all products. Both the homepage (featured only)
+// and the /products catalog page (everything) read from this array.
 export interface Product {
-  id: number;            // A unique number for each product (used for links)
-  name: string;          // e.g. "iPhone 13 Pro"
-  brand: string;         // e.g. "Apple"
-  category: string;      // e.g. "iPhones"
-  description: string;   // Longer text shown on the product detail page
-  price: string;         // The display price, e.g. "₦450,000"
-  condition: string;     // "Brand New", "UK Used", or "Fairly Used"
-  storage: string;       // e.g. "128GB"
-  ram?: string;          // The "?" means optional — not every device lists RAM
-  image: string;         // For now an emoji; later a real photo URL
-  available: boolean;    // true = in stock, false = sold out
-  featured: boolean;     // true = show on the homepage
+  id: number;
+  name: string;
+  brand: string;
+  category: string;
+  description: string;
+  price: string;
+  condition: string;
+  storage: string;
+  ram?: string;
+  image: string;
+  available: boolean;
+  featured: boolean;
 }
 
 export const products: Product[] = [
@@ -77,5 +74,35 @@ export const products: Product[] = [
     image: "🎧",
     available: true,
     featured: true,
+  },
+  {
+    id: 5,
+    name: "Samsung Galaxy A54",
+    brand: "Samsung",
+    category: "Android Phones",
+    description:
+      "Brand new Samsung Galaxy A54 with a vibrant 6.4\" display and long-lasting battery. Great value mid-range phone.",
+    price: "₦250,000",
+    condition: "Brand New",
+    storage: "128GB",
+    ram: "6GB",
+    image: "📱",
+    available: true,
+    featured: false,
+  },
+  {
+    id: 6,
+    name: "iPad 9th Gen",
+    brand: "Apple",
+    category: "Tablets",
+    description:
+      "UK-used iPad 9th generation in great condition. Perfect for notes, streaming, and light work.",
+    price: "₦280,000",
+    condition: "UK Used",
+    storage: "64GB",
+    ram: "3GB",
+    image: "📟",
+    available: true,
+    featured: false,
   },
 ];
