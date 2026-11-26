@@ -2,7 +2,6 @@ import ProductCard from "./ProductCard";
 import { products } from "@/lib/products";
 
 export default function FeaturedProducts() {
-  // Keep only the products marked as "featured".
   const featured = products.filter((product) => product.featured);
 
   return (
@@ -19,6 +18,7 @@ export default function FeaturedProducts() {
           {featured.map((product) => (
             <ProductCard
               key={product.id}
+              id={product.id}
               name={product.name}
               brand={product.brand}
               storage={product.storage}
