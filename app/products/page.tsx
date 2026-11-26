@@ -7,24 +7,26 @@ import ProductCard from "@/components/ProductCard";
 import { products } from "@/lib/products";
 
 const categories = ["All", "iPhones", "Android Phones", "Laptops", "Tablets", "Accessories"];
+const conditions = ["All", "Brand New", "UK Used", "Fairly Used"];
 
 export default function ProductsPage() {
-  // State for the category buttons
   const [activeCategory, setActiveCategory] = useState("All");
-  // State for the search bar (starts empty)
+  const [activeCondition, setActiveCondition] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
 
   // The Filter Logic:
   const filteredProducts = products.filter((product) => {
-    // Rule 1: Does it match the category?
+    // Rule 1: Category
     const matchesCategory = activeCategory === "All" || product.category === activeCategory;
     
-    // Rule 2: Does it match the search text?
-    // We use .toLowerCase() on both so "samsung" matches "Samsung"
+    // Rule 2: Condition (NEW)
+    const matchesCondition = activeCondition === "All" || product.condition === activeCondition;
+    
+    // Rule 3: Search text
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     
-    // The product must pass BOTH rules to be shown
-    return matchesCategory && matchesSearch;
+    // The product must pass ALL THREE rules to be shown
+    return matchesCategory && matchesCondition && matchesSearch;
   });
 
   return (
@@ -40,7 +42,7 @@ export default function ProductsPage() {
           </p>
 
           {/* Search Bar */}
-          <div className="mb-8">
+          <div className="mb-6">
             <input
               type="text"
               placeholder="Search for a product (e.g. iPhone, Samsung)..."
@@ -51,7 +53,7 @@ export default function ProductsPage() {
           </div>
 
           {/* Category Filter Buttons */}
-          <div className="flex flex-wrap gap-3 mb-10">
+          <div className="flex flex-wrap gap-3 mb-4">
             {categories.map((category) => (
               <button
                 key={category}
@@ -63,6 +65,23 @@ export default function ProductsPage() {
                 }`}
               >
                 {category}
+              </button>
+            ))}
+          </div>
+
+          {/* Condition Filter Buttons (NEW) */}
+          <div className="flex flex-wrap gap-3 mb-10">
+            {conditions.map((condition) => (
+              <button
+                key={condition}
+                onClick={() => setActiveCondition(condition)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  activeCondition === condition
+                    ? "bg-slate-800 text-white" // Different color for condition buttons
+                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
+                }`}
+              >
+                {condition}
               </button>
             ))}
           </div>
@@ -86,7 +105,7 @@ export default function ProductsPage() {
           {/* Empty State */}
           {filteredProducts.length === 0 && (
             <p className="text-center text-gray-500 py-10">
-              No products found. Try a different search or category.
+              No products found. Try a different search or filter.
             </p>
           )}
         </div>
