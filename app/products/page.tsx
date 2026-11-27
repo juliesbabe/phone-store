@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
-import { products } from "@/lib/products";
+import { supabase } from "@/lib/supabaseClient";
 
 const categories = ["All", "iPhones", "Android Phones", "Laptops", "Tablets", "Accessories"];
 const conditions = ["All", "Brand New", "UK Used", "Fairly Used"];
@@ -13,21 +13,38 @@ export default function ProductsPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeCondition, setActiveCondition] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
+  
+  // New state for the database data
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // The Filter Logic:
-  const filteredProducts = products.filter((product) => {
-    // Rule 1: Category
+  // Fetch data from Supabase when the page loads
+  useEffect(() => {
+    async function fetchProducts() {
+      const { data, error } = await supabase.from('products').select('*');
+      if (data) {
+        setProducts(data);
+      }
+      setLoading(false);
+    }
+    fetchProducts();
+  }, []);
+
+  // Filter logic
+  const filteredProducts = products.filter((product: any) => {
     const matchesCategory = activeCategory === "All" || product.category === activeCategory;
-    
-    // Rule 2: Condition (NEW)
     const matchesCondition = activeCondition === "All" || product.condition === activeCondition;
-    
-    // Rule 3: Search text
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    // The product must pass ALL THREE rules to be shown
     return matchesCategory && matchesCondition && matchesSearch;
   });
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-xl">Loading products...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
@@ -41,27 +58,23 @@ export default function ProductsPage() {
             Browse our full catalog of devices and accessories
           </p>
 
-          {/* Search Bar */}
           <div className="mb-6">
             <input
               type="text"
-              placeholder="Search for a product (e.g. iPhone, Samsung)..."
+              placeholder="Search for a product..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full md:w-1/2 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
 
-          {/* Category Filter Buttons */}
           <div className="flex flex-wrap gap-3 mb-4">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  activeCategory === category
-                    ? "bg-green-500 text-white"
-                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
+                  activeCategory === category ? "bg-green-500 text-white" : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
                 }`}
               >
                 {category}
@@ -69,16 +82,13 @@ export default function ProductsPage() {
             ))}
           </div>
 
-          {/* Condition Filter Buttons (NEW) */}
           <div className="flex flex-wrap gap-3 mb-10">
             {conditions.map((condition) => (
               <button
                 key={condition}
                 onClick={() => setActiveCondition(condition)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  activeCondition === condition
-                    ? "bg-slate-800 text-white" // Different color for condition buttons
-                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
+                  activeCondition === condition ? "bg-slate-800 text-white" : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
                 }`}
               >
                 {condition}
@@ -86,9 +96,8 @@ export default function ProductsPage() {
             ))}
           </div>
 
-          {/* Product Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => (
+            {filteredProducts.map((product: any) => (
               <ProductCard
                 key={product.id}
                 id={product.id}
@@ -102,10 +111,9 @@ export default function ProductsPage() {
             ))}
           </div>
 
-          {/* Empty State */}
           {filteredProducts.length === 0 && (
             <p className="text-center text-gray-500 py-10">
-              No products found. Try a different search or filter.
+              No products found.
             </p>
           )}
         </div>
