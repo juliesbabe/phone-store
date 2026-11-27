@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PhoneStore",
-  description: "Premium phones and accessories",
+  title: "PhoneStore - Premium Phones & Accessories in Nigeria",
+  description: "Buy brand new and UK-used iPhones, Samsung, laptops, and accessories. Fast delivery in Lagos. Contact us on WhatsApp.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

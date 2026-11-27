@@ -1,6 +1,11 @@
 // This is the Hero section — the first big thing visitors see.
 // It's designed to grab attention and push them to take action.
+import { storeConfig } from "@/lib/storeConfig";
+
 export default function Hero() {
+  // Build the WhatsApp link using the number from your store config
+  const whatsappLink = `https://wa.me/${storeConfig.whatsappNumber}`;
+
   return (
     <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white py-20 px-6">
       <div className="max-w-6xl mx-auto text-center">
@@ -17,10 +22,15 @@ export default function Hero() {
           Quality guaranteed with fast delivery to your doorstep.
         </p>
 
-        {/* Call-to-action button */}
-        <button className="bg-green-500 text-white text-lg font-semibold px-8 py-4 rounded-lg hover:bg-green-600 transition-colors shadow-lg">
+        {/* Call-to-action button — now a real link to WhatsApp */}
+        <a
+          href={whatsappLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block bg-green-500 text-white text-lg font-semibold px-8 py-4 rounded-lg hover:bg-green-600 transition-colors shadow-lg"
+        >
           Shop Now on WhatsApp
-        </button>
+        </a>
 
         {/* Trust badges */}
         <div className="mt-12 flex flex-wrap justify-center gap-6 text-sm text-gray-400">
