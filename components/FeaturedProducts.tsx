@@ -40,6 +40,7 @@ export default async function FeaturedProducts() {
               condition={product.condition}
               price={product.price}
               image={product.image}
+              image_url={product.image_url}
             />
           ))}
         </div>
