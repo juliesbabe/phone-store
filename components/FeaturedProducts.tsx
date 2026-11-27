@@ -1,8 +1,23 @@
 import ProductCard from "./ProductCard";
-import { products } from "@/lib/products";
+import { supabase } from "@/lib/supabaseClient";
 
-export default function FeaturedProducts() {
-  const featured = products.filter((product) => product.featured);
+export default async function FeaturedProducts() {
+  const { data: products, error } = await supabase
+    .from('products')
+    .select('*')
+    .eq('featured', true);
+
+  if (error) {
+    console.error("Supabase error:", error);
+    return (
+      <div className="text-center p-10">
+        <p className="text-red-600 font-semibold mb-2">Error loading products.</p>
+        <p className="text-sm text-gray-600 break-all">
+          Reason: {error.message || "unknown"} &nbsp;|&nbsp; Code: {error.code || "none"}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <section className="py-16 px-6 bg-gray-50">
@@ -15,7 +30,7 @@ export default function FeaturedProducts() {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featured.map((product) => (
+          {products.map((product: any) => (
             <ProductCard
               key={product.id}
               id={product.id}
