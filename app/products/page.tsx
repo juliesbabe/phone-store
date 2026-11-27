@@ -13,12 +13,11 @@ export default function ProductsPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeCondition, setActiveCondition] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
-  
-  // New state for the database data
-  const [products, setProducts] = useState([]);
+
+  // FIXED: tell TypeScript this list holds product objects (any[])
+  const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch data from Supabase when the page loads
   useEffect(() => {
     async function fetchProducts() {
       const { data, error } = await supabase.from('products').select('*');
@@ -30,7 +29,6 @@ export default function ProductsPage() {
     fetchProducts();
   }, []);
 
-  // Filter logic
   const filteredProducts = products.filter((product: any) => {
     const matchesCategory = activeCategory === "All" || product.category === activeCategory;
     const matchesCondition = activeCondition === "All" || product.condition === activeCondition;
