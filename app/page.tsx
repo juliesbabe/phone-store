@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import Categories from "@/components/Categories";
+
 import FeaturedProducts from "@/components/FeaturedProducts";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import ContactSection from "@/components/ContactSection";
@@ -14,7 +14,8 @@ export default function Home() {
     <div className="flex min-h-screen flex-col bg-gray-50">
       <Header />
       <Hero />
-      <Categories />
+  
+      
       <FeaturedProducts />
       <WhyChooseUs />
       <ContactSection />

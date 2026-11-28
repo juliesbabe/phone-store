@@ -1,7 +1,7 @@
 // This file is the single source of truth for your store's identity.
 // Change values HERE and they update everywhere on the website.
 export const storeConfig = {
-  storeName: "PhoneStore",
+  storeName: "Phone Store",
   tagline: "Premium phones and accessories — coming soon.",
   // ⚠️ REPLACE this with the dealer's real WhatsApp number.
   // Format: country code + number, NO "+", NO spaces, NO dashes.

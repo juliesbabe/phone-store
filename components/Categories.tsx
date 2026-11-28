@@ -1,6 +1,10 @@
+import Link from "next/link";
+
 // This is the Categories section. It shows the main product types.
+// TO EDIT: Just change the name or icon in the list below!
+// To use a real image instead of an emoji, replace the emoji with an image URL like:
+// icon: "https://your-image-url.com/iphone.png"
 export default function Categories() {
-  // This is a list of categories. Each one has a name and an icon (emoji for now).
   const categories = [
     { name: "iPhones", icon: "📱" },
     { name: "Samsung", icon: "📱" },
@@ -25,13 +29,20 @@ export default function Categories() {
         {/* Grid of category cards */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {categories.map((category) => (
-            <div
+            <Link
               key={category.name}
-              className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center hover:shadow-lg hover:border-green-500 transition-all cursor-pointer"
+              href="/products"
+              className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center hover:shadow-lg hover:border-green-500 transition-all block"
             >
-              <div className="text-4xl mb-3">{category.icon}</div>
+              <div className="text-4xl mb-3">
+                {category.icon.startsWith("http") ? (
+                  <img src={category.icon} alt={category.name} className="w-12 h-12 mx-auto object-contain" />
+                ) : (
+                  category.icon
+                )}
+              </div>
               <h3 className="font-semibold text-gray-900">{category.name}</h3>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
