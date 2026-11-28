@@ -2,14 +2,16 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import { useRouter } from "next/navigation"; // This tells the page how to move to a new URL
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const router = useRouter(); 
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault(); // Stop the page from reloading
+    e.preventDefault(); 
     
     const { error } = await supabase.auth.signInWithPassword({
       email: email,
@@ -19,7 +21,8 @@ export default function LoginPage() {
     if (error) {
       setMessage("Error: " + error.message);
     } else {
-      setMessage("✅ Login successful! Dashboard coming next.");
+      // This is the magic line that sends you to the dashboard!
+      router.push("/admin/dashboard"); 
     }
   };
 
@@ -50,7 +53,7 @@ export default function LoginPage() {
           Login
         </button>
         
-        {message && <p className="mt-4 text-center text-sm">{message}</p>}
+        {message && <p className="mt-4 text-center text-sm text-red-500">{message}</p>}
       </form>
     </div>
   );
